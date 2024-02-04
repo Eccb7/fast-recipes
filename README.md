@@ -4,7 +4,7 @@
 
 </div>
 
-> # Title
+> # Fast Recipes
 
 # 📗 Table of Contents
 
@@ -26,9 +26,11 @@
 - [❓ FAQ (OPTIONAL)](#faq)
 - [📝 License](#license)
 
-# 📖 Blog APP <a name="about-project"></a>
+# 📖 Fast Recipes <a name="about-project"></a>
 
-**About**
+"This **recipe app** allows users to create, share, and manage their favorite recipes, with a focus on ingredient management and user-friendly navigation. It's a platform for home cooks and food enthusiasts to discover new dishes and connect with others who share their passion for cooking."
+
+
 
 ## 🛠 Built With <a name="built-with"></a>
 

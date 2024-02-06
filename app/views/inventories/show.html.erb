@@ -1,0 +1,34 @@
+<!-- app/views/inventories/show.html.erb -->
+<h1>Inventory: <%= @inventory.name %></h1>
+<%= form_with(model: @inventory_food, url: inventory_inventory_foods_path(@inventory), local: true) do |form| %>
+  <div>
+    <%= form.label :food_id %>
+    <%= form.collection_select :food_id, Food.all, :id, :name %>
+  </div>
+  <div>
+    <%= form.label :quantity %>
+    <%= form.number_field :quantity %>
+  </div>
+  <%= form.submit "Add Food Item" %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Food</th>
+      <th>Quantity</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @inventory.foods.each do |food| %>
+      <tr>
+        <td><%= food.name %></td>
+        <td><%= food.inventory_foods.find_by(inventory_id: @inventory.id).quantity %></td>
+        <td>
+          <%= link_to 'Delete', inventory_inventory_food_path(@inventory, food.inventory_foods.find_by(inventory_id: @inventory.id)), method: :delete, data: { confirm: 'Are you sure?' } %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

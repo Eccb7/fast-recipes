@@ -1,0 +1,21 @@
+<h1>Your Inventories</h1>
+<%= form_for(@inventory) do |f| %>
+  <h3>Create a inventory</h3>
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="actions">
+    <%= f.submit "Create Inventory" %>
+  </div>
+<% end %>
+
+<h2>List of Inventories</h2>
+<ul>
+  <% @inventories.each do |inventory| %>
+    <li>
+      <%= link_to inventory.name, inventory_path(inventory) %>
+    </li>
+  <% end %>
+</ul>
+

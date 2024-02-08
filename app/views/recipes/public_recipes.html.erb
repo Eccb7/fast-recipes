@@ -1,0 +1,28 @@
+<h1>Public Recipes</h1>
+
+<div id="public-recipes" class="collapse">
+  <% @public_recipes.each do |recipe| %>
+    <div class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">
+          <%= link_to recipe.recipe_name, recipe_path(recipe) %>
+        </h5>
+        <p class="card-text">
+          By <%= recipe.user.name %>
+        </p>
+        <%# <p class="card-text">
+          Total Food Items: <%= recipe.total_food_items %>
+        <%# </p>
+        <p class="card-text">
+          Total Price: <%= number_to_currency(recipe.total_price) %>
+        <%# </p>   %>
+
+        <% if current_user_owns_recipe?(recipe) %>
+          <%= form_with(model: recipe, method: :delete, data: { confirm: "Are you sure?" }, class: "d-inline") do |form| %>
+            <%= form.submit "Delete", class: "btn btn-danger" %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

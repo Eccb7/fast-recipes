@@ -1,0 +1,20 @@
+<h1>Your Recipes</h1>
+
+<%= link_to "New Recipe", new_recipe_path, class: "btn btn-primary" %>
+
+<% @recipes.each do |recipe| %>
+  <div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">
+        <%= link_to recipe.recipe_name, recipe_path(recipe) %>
+      </h5>
+      <p class="card-text"><%= recipe.description %></p>
+
+      <% if current_user_owns_recipe?(recipe) %>
+        <%= form_with(model: recipe, method: :delete, data: { confirm: "Are you sure?" }, class: "d-inline") do |form| %>
+          <%= form.submit "Remove", class: "btn btn-danger" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

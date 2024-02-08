@@ -1,0 +1,27 @@
+<h1><%= @recipe.recipe_name %></h1>
+
+<div class="form-check form-switch">
+  <%= check_box_tag 'public', '1', @recipe.public, class: 'form-check-input', id: 'toggle-public' %>
+  <%= label_tag 'toggle-public', 'Toggle Public', class: 'form-check-label' %>
+</div>
+
+<p>Preparation Time: <%= @recipe.preparation_time %></p>
+<p>Cooking Time: <%= @recipe.cooking_time %></p>
+<p><%= @recipe.description %></p>
+
+<div class="d-flex justify-content-between">
+  <%= button_to "Generate Shopping List", method: :post, class: 'btn btn-success' %>
+  <%= link_to "Add Ingredient", class: 'btn btn-primary' %>
+</div>
+
+<%# = render partial: 'recipe_foods/form', locals: { recipe: @recipe, recipe_food: RecipeFood.new } %>
+
+<h2>Ingredients</h2>
+
+<ul>
+  <% @recipe_foods.each do |recipe_food| %>
+    <li><%= "#{recipe_food.food.name}: #{recipe_food.quantity}" %></li>
+  <% end %>
+</ul>
+
+<%= link_to "Back", recipes_path, class: 'btn btn-primary' %>

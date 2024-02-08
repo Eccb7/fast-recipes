@@ -1,21 +1,19 @@
 class FoodsController < ApplicationController
-  def create; end
-
-  def create_food_linked_with_inventory
-    @inventory = Inventory.find(params[:inventory_id])
+  def new
     @food = Food.new
-    @food.name = food_params[:name]
-    @food.measurement_unit = food_params[:measurement_unit]
-    @food.price = food_params[:price]
+  end
+
+  def create
+    @food = Food.new(food_params)
+
     if @food.save
-      @inventory.foods << @food
-      redirect_to @inventory, notice: 'Food was successfully added.'
+      redirect_to @food, notice: 'Food was successfully added.'
     else
-      render 'inventories/show'
+      render :new
     end
   end
 
-  def destroy_food_linked_with_inventory
+  def destroy_linked_with_inventory
     inventory = Inventory.find(params[:inventory_id])
     food = Food.find(params[:id])
     inventory.foods.delete(food)
@@ -33,6 +31,6 @@ class FoodsController < ApplicationController
   private
 
   def food_params
-    params.permit(:name, :price, :measurement_unit, :inventory_id)
+    params.require(:food).permit(:name, :price, :measurement_unit, :inventory_id)
   end
 end

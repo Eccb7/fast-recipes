@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
-  get 'foods/create'
-  get 'foods/destroy'
-  get 'inventories/index'
-  get 'inventories/show'
   devise_for :users
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
@@ -13,11 +10,25 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "rails/health#show"
 
-  resources :inventories 
-  resources :foods do
-    post 'create_food_linked_with_inventory', on: :collection
+  resources :inventories, only: [:index, :show] do
+    resources :inventory_foods, only: [:create, :destroy]
   end
-  # This route assumes that the action is not nested under inventories resources
-  delete 'inventories/:inventory_id/foods/:id/destroy_food_linked_with_inventory', to: 'foods#destroy_food_linked_with_inventory', as: 'destroy_food_linked_with_inventory'
 
+  resources :foods, only: [:create, :destroy] do
+    post 'create_food_linked_with_inventory', on: :collection
+    delete 'destroy_food_linked_with_inventory/:inventory_id', to: 'foods#destroy_food_linked_with_inventory', as: 'destroy_food_linked_with_inventory'
+  end
+
+  resources :recipes do
+    member do
+      post 'toggle_public'
+    end
+    resources :recipe_foods
+  end
+
+  get 'public_recipes', to: 'recipes#public_recipes', as: :public_recipes
+
+  resources :public_recipes, only: :index, controller: 'recipes'
+
+  resources :users, only: [:index, :show, :edit, :update, :destroy]
 end

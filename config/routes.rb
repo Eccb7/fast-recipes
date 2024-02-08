@@ -13,7 +13,11 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "rails/health#show"
 
-  resources :inventories, only: [:show] do
-    resources :inventory_foods, only: [:create, :destroy]
+  resources :inventories 
+  resources :foods do
+    post 'create_food_linked_with_inventory', on: :collection
   end
+  # This route assumes that the action is not nested under inventories resources
+  delete 'inventories/:inventory_id/foods/:id/destroy_food_linked_with_inventory', to: 'foods#destroy_food_linked_with_inventory', as: 'destroy_food_linked_with_inventory'
+
 end

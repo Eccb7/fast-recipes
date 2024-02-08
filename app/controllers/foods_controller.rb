@@ -1,40 +1,36 @@
 class FoodsController < ApplicationController
-  before_action :authenticate_user!
-
-  def index
-    @foods = current_user.foods
-  end
-
-  def show
-    @food = current_user.foods.find(params[:id])
-  end
-
   def new
-    @food = current_user.foods.build
+    @food = Food.new
   end
 
   def create
-    @food = current_user.foods.build(food_params)
+    @food = Food.new(food_params)
+
     if @food.save
-      redirect_to foods_path, notice: 'Food item successfully added'
+      redirect_to @food, notice: 'Food was successfully added.'
     else
       render :new
     end
   end
 
-  def destroy
-    @food = current_user.foods.find(params[:id])
-    @food.inventory_foods.destroy_all
-    if @food.destroy
-      redirect_to foods_path, notice: 'Recipe item deleted successfully.'
+  def destroy_linked_with_inventory
+    inventory = Inventory.find(params[:inventory_id])
+    food = Food.find(params[:id])
+    inventory.foods.delete(food)
+    food.destroy
+
+    if inventory.save
+      flash[:notice] = 'Food item was successfully removed from the inventory.'
     else
-      redirect_to foods_path, alert: 'Failed to delete the Recipe Item!'
+      flash[:alert] = 'Failed to remove the food item from the inventory.'
     end
+
+    redirect_to inventory, notice: 'Food was successfully removed.'
   end
 
   private
 
   def food_params
-    params.require(:food).permit(:name, :measurement_unit, :quantity, :price)
+    params.require(:food).permit(:name, :price, :measurement_unit, :inventory_id)
   end
 end

@@ -1,33 +1,36 @@
-<!-- app/views/inventories/show.html.erb -->
-<h1>Inventory: <%= @inventory.name %></h1>
-<%= form_with(model: @inventory_food, url: inventory_inventory_foods_path(@inventory), local: true) do |form| %>
-  <div>
-    <%= form.label :food_id %>
-    <%= form.collection_select :food_id, Food.all, :id, :name %>
-  </div>
-  <div>
-    <%= form.label :quantity %>
-    <%= form.number_field :quantity %>
-  </div>
-  <%= form.submit "Add Food Item" %>
-<% end %>
+<%= form_with url: "/foods/create_food_linked_with_inventory", method: :post, local: true do |form| %>
+    <%= form.hidden_field :inventory_id, value: @inventory.id %>
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name %>
+    </div>
+    <div class="field">
+      <%= form.label :measurement_unit %>
+      <%= form.number_field :measurement_unit %>
+    </div>
+    <div class="field">
+      <%= form.label :price %>
+      <%= form.number_field :price %>
+    </div>
+    <div class="actions">
+      <%= form.submit "Add Food" %>
+    </div>
+  <% end %>
 
-<table>
+  <table>
   <thead>
     <tr>
       <th>Food</th>
       <th>Quantity</th>
-      <th>Action</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @inventory.foods.each do |food| %>
       <tr>
         <td><%= food.name %></td>
-        <td><%= food.inventory_foods.find_by(inventory_id: @inventory.id).quantity %></td>
-        <td>
-          <%= link_to 'Delete', inventory_inventory_food_path(@inventory, food.inventory_foods.find_by(inventory_id: @inventory.id)), method: :delete, data: { confirm: 'Are you sure?' } %>
-        </td>
+        <td><%= food.measurement_unit %></td>
+        <td><%= button_to 'Delete', destroy_food_linked_with_inventory_path(id: food.id, inventory_id: @inventory.id), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

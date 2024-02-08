@@ -19,7 +19,6 @@ class InventoriesController < ApplicationController
 
   def show
     @inventory = Inventory.find(params[:id])
-    @inventory_food = @inventory.foods.build
   end
 
   def destroy

@@ -2,16 +2,16 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :request do
   describe 'GET #index' do
-  it 'renders the index template when the user is signed in' do
-    user = FactoryBot.create(:user)
-    sign_in user
+    it 'renders the index template when the user is signed in' do
+      user = FactoryBot.create(:user)
+      sign_in user
 
-    get recipes_path
+      get recipes_path
 
-    expect(response).to have_http_status(:ok)
-    expect(response).to render_template(:index)
+      expect(response).to have_http_status(:ok)
+      expect(response).to render_template(:index)
+    end
   end
-end
 
   describe 'GET #new' do
     it 'renders the new template' do

@@ -25,7 +25,7 @@ RSpec.describe RecipesController, type: :request do
     context 'when user is signed in' do
       it 'renders the show template' do
         user = FactoryBot.create(:user)
-        recipe = FactoryBot.create(:recipe, user: user)
+        recipe = FactoryBot.create(:recipe, user:)
         sign_in user
         get recipe_path(recipe)
         expect(response).to render_template(:show)

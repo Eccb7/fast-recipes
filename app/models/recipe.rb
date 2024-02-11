@@ -8,10 +8,10 @@ class Recipe < ApplicationRecord
   validates :description, presence: true, length: { minimum: 10 }
   validates :public, inclusion: { in: [true, false] }
 
-  validate :user_exists
+  validates :user_id, presence: true
 
   def user_exists
-    errors.add(:user_id, 'must exist') unless User.exists?(user_id)
+    errors.add(:user, 'must exist') unless user.present?
   end
 
   def load_recipe_foods

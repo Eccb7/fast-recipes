@@ -54,9 +54,9 @@ To get a local copy up and running, follow these steps:
 
 ### Prerequisites
 
-In order to run this project you need:
+To run this project you need:
 
-- A browser of you choice.
+- A browser of your choice.
 - A text editor of your choice.
 - An installed ruby gem on your local system
 - Rails needs to be installed on your system
